@@ -20,10 +20,10 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D96C8C] to-[#7D5FFF] shadow-[0_12px_26px_rgba(217,108,140,0.25)]">
-              <span className="font-body text-lg font-bold text-white">N</span>
+              <span className="font-body text-lg font-bold text-white">C</span>
             </div>
             <span className="hidden font-body text-xl font-semibold text-[#251D24] sm:inline">
-              Nayak
+              ClosetIQ
             </span>
           </Link>
 

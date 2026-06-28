@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h3 className="mb-4 font-body text-2xl font-semibold">Nayak</h3>
+            <h3 className="mb-4 font-body text-2xl font-semibold">ClosetIQ</h3>
             <p className="text-sm leading-7 text-white/65">
               A premium AI fashion platform for wardrobe management, intelligent outfit styling, and personalized shopping.
             </p>
@@ -46,7 +46,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-white/60 text-sm">
-            &copy; 2026 Nayak. All rights reserved.
+            &copy; 2026 ClosetIQ. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0 text-sm text-white/60">
             <a href="#" className="hover:text-white transition">Privacy</a>

@@ -81,7 +81,7 @@ const testimonials = [
     name: 'Ayesha Khan',
     role: 'Final year student',
     quote:
-      'Nayak makes outfit planning feel effortless. I can see my wardrobe, get ideas instantly, and shop only what I actually need.',
+      'ClosetIQ makes outfit planning feel effortless. I can see my wardrobe, get ideas instantly, and shop only what I actually need.',
   },
   {
     name: 'Mira Shah',
@@ -197,7 +197,7 @@ export default function Landing() {
                     <motion.img
                       key={image}
                       src={image}
-                      alt={`Nayak wardrobe preview ${index + 1}`}
+                      alt={`ClosetIQ wardrobe preview ${index + 1}`}
                       className="min-h-0 flex-1 rounded-2xl object-cover shadow-soft"
                       whileHover={{ scale: 1.04 }}
                       transition={{ type: 'spring', stiffness: 220, damping: 20 }}
@@ -207,7 +207,7 @@ export default function Landing() {
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=85"
-                    alt="Nayak AI fashion assistant with wardrobe and shopping elements"
+                    alt="ClosetIQ AI fashion assistant with wardrobe and shopping elements"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-x-4 bottom-4 rounded-3xl border border-white/70 bg-white/75 p-4 shadow-soft backdrop-blur-xl">
@@ -284,7 +284,7 @@ export default function Landing() {
               <h2 className="mt-3 font-body text-3xl font-semibold text-[#251D24] sm:text-4xl">From closet to complete outfit</h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-[#685B67]">
-              Nayak turns scattered clothing into a guided styling system for daily looks, events, and shopping decisions.
+              ClosetIQ turns scattered clothing into a guided styling system for daily looks, events, and shopping decisions.
             </p>
           </div>
 
@@ -317,7 +317,7 @@ export default function Landing() {
         className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8"
       >
         <motion.div variants={fadeUp} className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#D96C8C]">Why choose Nayak</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#D96C8C]">Why choose ClosetIQ</p>
           <h2 className="mt-3 font-body text-3xl font-semibold text-[#251D24] sm:text-4xl">Luxury style decisions, powered by AI</h2>
         </motion.div>
 
