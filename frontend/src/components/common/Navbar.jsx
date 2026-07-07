@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useRedux';
-import { FiLogOut, FiMenu, FiShoppingBag, FiUser, FiX } from 'react-icons/fi';
+import { FiLogOut, FiMenu, FiUser, FiX } from 'react-icons/fi';
 import { useState } from 'react';
 import { logout } from '@/store/slices/authSlice';
 
@@ -8,109 +8,142 @@ export default function Navbar() {
   const { isAuthenticated, dispatch } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const closeMenu = () => setIsOpen(false);
 
   const isActive = (path) =>
     location.pathname === path
-      ? 'text-[#D96C8C] bg-[#D96C8C]/10'
-      : 'text-[#5F5360] hover:text-[#D96C8C] hover:bg-white/70';
+      ? 'bg-[#D96C8C] text-white shadow-[0_8px_22px_rgba(217,108,140,0.22)]'
+      : 'text-[#5F5360] hover:bg-[#FFF0F7] hover:text-[#D96C8C]';
+
+  const navLinks = [
+    ['/', 'Home'],
+    ['/wardrobe', 'Wardrobe'],
+    ['/stylist', 'AI Stylist'],
+    ['/products', 'Store'],
+    ['/cart', 'Cart'],
+  ];
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-white/70 bg-white/78 shadow-soft backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#D96C8C] to-[#7D5FFF] shadow-[0_12px_26px_rgba(217,108,140,0.25)]">
-              <span className="font-body text-lg font-bold text-white">C</span>
-            </div>
-            <span className="hidden font-body text-xl font-semibold text-[#251D24] sm:inline">
-              ClosetIQ
-            </span>
+    <nav className="fixed left-0 top-4 z-50 w-full px-3">
+      <div className="mx-auto max-w-4xl">
+        <div className="flex h-14 items-center justify-between rounded-full border border-white/80 bg-white/82 px-2.5 shadow-[0_14px_34px_rgba(217,108,140,0.16)] ring-1 ring-[#F1DCE5]/70 backdrop-blur-xl">
+          <Link
+            to="/"
+            onClick={closeMenu}
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#D96C8C] to-[#7D5FFF] text-white shadow-[0_10px_24px_rgba(217,108,140,0.28)] transition hover:scale-105"
+            aria-label="ClosetIQ home"
+          >
+            <span className="font-body text-lg font-bold">C</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className={`${isActive('/')} px-3 py-2 rounded-full transition font-medium`}>
-              Home
-            </Link>
-            <Link to="/wardrobe" className={`${isActive('/wardrobe')} px-3 py-2 rounded-lg transition font-medium`}>
-              Wardrobe
-            </Link>
-            <Link to="/stylist" className={`${isActive('/stylist')} px-3 py-2 rounded-lg transition font-medium`}>
-              AI Stylist
-            </Link>
-            <Link to="/products" className={`${isActive('/products')} px-3 py-2 rounded-lg transition font-medium`}>
-              Store
-            </Link>
+          <div className="hidden items-center gap-7 px-5 md:flex">
+            {navLinks.map(([to, label]) => (
+              <Link
+                key={to}
+                to={to}
+                className={`${isActive(to)} rounded-full px-3 py-2 text-sm font-medium transition`}
+              >
+                {label}
+              </Link>
+            ))}
           </div>
 
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/cart" className="relative inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFF0F7] text-[#D96C8C] transition hover:bg-[#FDE1EC]">
-              <FiShoppingBag size={20} />
-            </Link>
+          <div className="hidden items-center gap-2 md:flex">
             {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <Link to="/dashboard" className={`${isActive('/dashboard')} w-10 h-10 rounded-2xl inline-flex items-center justify-center transition`}>
-                  <FiUser size={20} />
+              <>
+                <Link
+                  to="/dashboard"
+                  className="inline-flex h-10 items-center gap-2 rounded-full bg-[#D96C8C] px-4 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(217,108,140,0.22)] transition hover:bg-[#C85A7D]"
+                >
+                  <FiUser size={16} />
+                  Dashboard
                 </Link>
                 <button
                   onClick={() => dispatch(logout())}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFF0F7] text-[#5F5360] transition hover:text-[#D96C8C]"
+                  className="grid h-10 w-10 place-items-center rounded-full text-[#5F5360] transition hover:bg-[#FFF0F7] hover:text-[#D96C8C]"
+                  aria-label="Logout"
                 >
-                  <FiLogOut size={20} />
+                  <FiLogOut size={18} />
                 </button>
-              </div>
+              </>
             ) : (
-              <div className="flex items-center space-x-3">
-                <Link
-                  to="/login"
-                  className="font-medium text-[#5F5360] transition hover:text-[#D96C8C]"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="rounded-full bg-[#D96C8C] px-5 py-2.5 font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#C85A7D]"
-                >
-                  Sign Up
-                </Link>
-              </div>
+              <Link
+                to="/login"
+                className="inline-flex h-10 items-center rounded-full bg-[#D96C8C] px-5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(217,108,140,0.22)] transition hover:bg-[#C85A7D]"
+              >
+                Login
+              </Link>
             )}
           </div>
 
           <button
-            className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFF0F7] text-[#251D24] md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#FFF0F7] text-[#251D24] transition hover:bg-[#FDE1EC] md:hidden"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
           >
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
         </div>
+      </div>
 
-        {isOpen && (
-          <div className="space-y-1 border-t border-[#F1DCE5] pb-4 pt-3 md:hidden">
-            <Link to="/" className="block rounded-xl px-3 py-2 text-[#5F5360] hover:bg-white hover:text-[#D96C8C]">
-              Home
-            </Link>
-            <Link to="/wardrobe" className="block rounded-xl px-3 py-2 text-[#5F5360] hover:bg-white hover:text-[#D96C8C]">
-              Wardrobe
-            </Link>
-            <Link to="/stylist" className="block rounded-xl px-3 py-2 text-[#5F5360] hover:bg-white hover:text-[#D96C8C]">
-              AI Stylist
-            </Link>
-            <Link to="/products" className="block rounded-xl px-3 py-2 text-[#5F5360] hover:bg-white hover:text-[#D96C8C]">
-              Store
-            </Link>
-            {!isAuthenticated && (
-              <>
-                <Link to="/login" className="block rounded-xl px-3 py-2 text-[#5F5360] hover:bg-white hover:text-[#D96C8C]">
+      {isOpen && (
+        <div className="mx-auto mt-2 max-w-4xl rounded-[1.75rem] border border-white/80 bg-white/92 p-3 shadow-[0_18px_44px_rgba(217,108,140,0.18)] backdrop-blur-xl md:hidden">
+          <div className="grid gap-1">
+            {navLinks.map(([to, label]) => (
+              <Link
+                key={to}
+                onClick={closeMenu}
+                to={to}
+                className={`${isActive(to)} rounded-full px-4 py-3 text-sm font-medium transition`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-3 border-t border-[#F1DCE5] pt-3">
+            {isAuthenticated ? (
+              <div className="grid gap-2">
+                <Link
+                  onClick={closeMenu}
+                  to="/dashboard"
+                  className="rounded-full bg-[#D96C8C] px-4 py-3 text-center text-sm font-semibold text-white"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    dispatch(logout());
+                    closeMenu();
+                  }}
+                  className="flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-medium text-[#5F5360] transition hover:bg-[#FFF0F7] hover:text-[#D96C8C]"
+                >
+                  <FiLogOut size={17} />
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  onClick={closeMenu}
+                  to="/login"
+                  className="rounded-full bg-[#D96C8C] px-4 py-3 text-center text-sm font-semibold text-white"
+                >
                   Login
                 </Link>
-                <Link to="/signup" className="block rounded-xl px-3 py-2 text-[#D96C8C] hover:bg-white">
+                <Link
+                  onClick={closeMenu}
+                  to="/signup"
+                  className="rounded-full border border-[#F1DCE5] px-4 py-3 text-center text-sm font-semibold text-[#D96C8C]"
+                >
                   Sign Up
                 </Link>
-              </>
+              </div>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 }

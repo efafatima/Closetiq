@@ -12,7 +12,8 @@ export const getOrders = async (req, res) => {
 
 export const getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const query = req.user?.isAdmin ? { _id: req.params.id } : { _id: req.params.id, userId: req.userId };
+    const order = await Order.findOne(query);
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
@@ -71,9 +72,23 @@ export const createOrder = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(req.params.id, req.body, {
+    if (!req.user?.isAdmin) {
+      return res.status(403).json({ message: 'Only admins can update orders' });
+    }
+
+    const allowedUpdates = ['orderStatus', 'paymentStatus', 'trackingNumber'];
+    const updates = Object.fromEntries(
+      Object.entries(req.body).filter(([key]) => allowedUpdates.includes(key))
+    );
+
+    const order = await Order.findByIdAndUpdate(req.params.id, updates, {
       new: true,
     });
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
     res.json(order);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -82,7 +97,16 @@ export const updateOrder = async (req, res) => {
 
 export const deleteOrder = async (req, res) => {
   try {
-    await Order.findByIdAndDelete(req.params.id);
+    if (!req.user?.isAdmin) {
+      return res.status(403).json({ message: 'Only admins can delete orders' });
+    }
+
+    const order = await Order.findByIdAndDelete(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
     res.json({ message: 'Order deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

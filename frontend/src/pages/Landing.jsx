@@ -124,36 +124,15 @@ export default function Landing() {
               variants={fadeUp}
               className="max-w-4xl font-body text-5xl font-semibold leading-[1.04] text-[#201820] sm:text-6xl lg:text-7xl"
             >
-              Your Smart AI Fashion Companion
+              Your Fashion Companion
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
               className="mt-6 max-w-2xl text-base leading-8 text-[#685B67] sm:text-lg"
             >
-              Manage your digital wardrobe, receive AI-powered outfit recommendations, and shop fashion items-all in one intelligent platform.
+              Digital, elegant, and stylish wardrobe planning for everyday looks, outfit ideas, and curated fashion choices.
             </motion.p>
-
-            <motion.div variants={fadeUp} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                to="/wardrobe"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D96C8C] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(217,108,140,0.28)] transition hover:-translate-y-0.5 hover:bg-[#C85A7D]"
-              >
-                Explore Wardrobe <FiArrowRight />
-              </Link>
-              <Link
-                to="/stylist"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#7D5FFF]/25 bg-white/75 px-6 py-3 text-sm font-semibold text-[#7D5FFF] shadow-soft backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-[#7D5FFF] hover:bg-white"
-              >
-                Try AI Stylist <FiZap />
-              </Link>
-              <Link
-                to="/products"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#302331]/10 bg-[#251D24] px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-[#3A2B3A]"
-              >
-                Shop Collection <FiShoppingBag />
-              </Link>
-            </motion.div>
           </motion.div>
 
           <motion.div
@@ -357,7 +336,7 @@ export default function Landing() {
                     <FiStar key={index} className="fill-current" />
                   ))}
                 </div>
-                <blockquote className="text-sm leading-7 text-white/78">"{item.quote}"</blockquote>
+                <blockquote className="text-sm leading-7 text-white/78">&ldquo;{item.quote}&rdquo;</blockquote>
                 <figcaption className="mt-6">
                   <p className="font-semibold">{item.name}</p>
                   <p className="text-sm text-white/55">{item.role}</p>

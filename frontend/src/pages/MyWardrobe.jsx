@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Card from '@/components/common/Card';
 import EmptyState from '@/components/common/EmptyState';
 import LoadingSkeleton from '@/components/common/LoadingSkeleton';
-import { FiPlus, FiSearch, FiX } from 'react-icons/fi';
+import { FiCamera, FiGrid, FiHeart, FiPlus, FiSearch, FiShoppingBag, FiStar, FiX } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { wardrobeService } from '@/services/services';
 
@@ -18,6 +18,39 @@ const initialForm = {
   size: '',
   imageUrl: '',
 };
+
+const heroShots = [
+  { label: 'Soft layers', position: '18% 16%' },
+  { label: 'Statement hat', position: '50% 40%' },
+  { label: 'Evening profile', position: '82% 24%' },
+];
+
+const styleSections = [
+  {
+    title: 'Core Closet',
+    subtitle: 'Tops, bottoms, and dresses balanced into daily outfit rails.',
+    meta: '12 essentials',
+    image: '/wadrob.jpg',
+    position: '16% 82%',
+    icon: FiGrid,
+  },
+  {
+    title: 'Mood Palette',
+    subtitle: 'Track colors, seasons, and textures before choosing the next look.',
+    meta: 'Blush, black, sage',
+    image: '/wadrob.jpg',
+    position: '51% 39%',
+    icon: FiStar,
+  },
+  {
+    title: 'Finish Pieces',
+    subtitle: 'Bags, shoes, and accessories that complete your styling story.',
+    meta: 'Ready to pair',
+    image: '/girl.png',
+    position: '50% 48%',
+    icon: FiShoppingBag,
+  },
+];
 
 export default function MyWardrobe() {
   const [items, setItems] = useState([]);
@@ -83,30 +116,114 @@ export default function MyWardrobe() {
   };
 
   return (
-    <div className="min-h-screen pt-20 px-4 py-12">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen bg-[#F8F2EE] px-4 pb-16 pt-24">
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12"
+          className="mb-10 overflow-hidden rounded-[1.75rem] border border-white/80 bg-[#E6D5C8] shadow-[0_28px_80px_rgba(61,45,38,0.16)]"
         >
-          <div>
-            <h1 className="font-display text-4xl font-bold text-text-primary mb-2">
-              My Wardrobe
-            </h1>
-            <p className="text-text-secondary">
-              Organize and manage your clothing collection
-            </p>
+          <div className="grid min-h-[560px] lg:grid-cols-[0.92fr_1.08fr]">
+            <div className="relative flex min-h-[500px] flex-col justify-between bg-[#D7C0AF] p-6 text-[#2B211D] sm:p-8 lg:p-10">
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.34),transparent_45%)]" />
+              <div className="relative">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7E5A4B]">Digital closet</p>
+                <h1 className="mt-5 max-w-xl font-display text-5xl font-semibold leading-none sm:text-6xl lg:text-7xl">
+                  My Wardrobe
+                </h1>
+                <p className="mt-6 max-w-md text-sm leading-7 text-[#5D4B43] sm:text-base">
+                  Curate outfits, organize pieces, and shape a wardrobe that feels editorial, wearable, and personal.
+                </p>
+              </div>
+
+              <div className="relative grid gap-3 sm:grid-cols-2">
+                <div className="flex items-center gap-3 bg-white/65 p-4 shadow-soft backdrop-blur-xl">
+                  <span className="grid h-10 w-10 place-items-center bg-[#251D24] text-white">
+                    <FiCamera size={18} />
+                  </span>
+                  <div>
+                    <p className="text-2xl font-semibold text-[#251D24]">{items.length}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6E5146]">Saved pieces</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 bg-white/65 p-4 shadow-soft backdrop-blur-xl">
+                  <span className="grid h-10 w-10 place-items-center bg-[#D96C8C] text-white">
+                    <FiHeart size={18} />
+                  </span>
+                  <div>
+                    <p className="text-2xl font-semibold text-[#251D24]">{selectedCategory === 'all' ? 'All' : selectedCategory}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#6E5146]">Current rail</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative grid grid-cols-3 gap-3">
+                {heroShots.map((shot) => (
+                  <div key={shot.label} className="group overflow-hidden rounded-xl bg-white/50 shadow-soft">
+                    <div className="h-36 bg-cover bg-center transition duration-500 group-hover:scale-105 sm:h-44" style={{ backgroundImage: 'url(/wadrob.jpg)', backgroundPosition: shot.position }} />
+                    <p className="bg-white/78 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6E5146]">
+                      {shot.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative min-h-[520px] overflow-hidden bg-[#BFA18D]">
+              <img
+                src="/wadrob.jpg"
+                alt="Editorial wardrobe collage with one model in multiple fashion poses"
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(37,29,36,0.18),transparent_40%),linear-gradient(0deg,rgba(37,29,36,0.34),transparent_42%)]" />
+              <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div className="max-w-xs bg-white/88 p-4 shadow-premium backdrop-blur-xl">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#9B6D5B]">Today&apos;s edit</p>
+                  <p className="mt-2 font-display text-2xl font-semibold text-[#251D24]">Soft, structured, styled</p>
+                </div>
+                <button
+                  onClick={() => setShowForm(true)}
+                  className="inline-flex items-center justify-center gap-2 bg-[#251D24] px-5 py-3 text-sm font-semibold text-white shadow-premium transition hover:bg-[#D96C8C]"
+                >
+                  <FiPlus size={18} />
+                  Add Item
+                </button>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-accent-600 text-white rounded-lg hover:bg-accent-700 transition font-semibold"
-          >
-            <FiPlus size={20} />
-            Add Item
-          </button>
         </motion.div>
+
+        <div className="mb-10 grid gap-5 lg:grid-cols-3">
+          {styleSections.map((section, index) => {
+            const Icon = section.icon;
+            return (
+              <motion.article
+                key={section.title}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.08 }}
+                className="group overflow-hidden rounded-2xl border border-white/80 bg-white/80 shadow-soft backdrop-blur-xl"
+              >
+                <div className="relative h-52 overflow-hidden">
+                  <img
+                    src={section.image}
+                    alt={section.title}
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    style={{ objectPosition: section.position }}
+                  />
+                  <span className="absolute left-4 top-4 grid h-11 w-11 place-items-center bg-white/88 text-[#D96C8C] shadow-soft backdrop-blur-xl">
+                    <Icon size={20} />
+                  </span>
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9B6D5B]">{section.meta}</p>
+                  <h2 className="mt-2 font-display text-2xl font-semibold text-[#251D24]">{section.title}</h2>
+                  <p className="mt-3 text-sm leading-6 text-[#5F5360]">{section.subtitle}</p>
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
 
         {showForm && (
           <Card className="mb-8" hover={false}>
@@ -185,17 +302,17 @@ export default function MyWardrobe() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="mb-8 space-y-4"
+          className="mb-8 space-y-4 rounded-2xl border border-white/80 bg-white/72 p-4 shadow-soft backdrop-blur-xl"
         >
           {/* Search Bar */}
           <div className="relative">
-            <FiSearch className="absolute left-4 top-3.5 text-text-secondary" size={20} />
+            <FiSearch className="absolute left-4 top-3.5 text-[#9B6D5B]" size={20} />
             <input
               type="text"
               placeholder="Search your wardrobe..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white border border-secondary-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-600"
+              className="w-full border border-[#E7D5CA] bg-[#FFFDFB] py-3 pl-12 pr-4 text-[#251D24] outline-none transition placeholder:text-[#9B8A83] focus:border-[#D96C8C] focus:ring-2 focus:ring-[#D96C8C]/18"
             />
           </div>
 
@@ -203,10 +320,10 @@ export default function MyWardrobe() {
           <div className="flex gap-2 overflow-x-auto pb-2">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition ${
+              className={`whitespace-nowrap px-4 py-2 text-sm font-semibold transition ${
                 selectedCategory === 'all'
-                  ? 'bg-accent-600 text-white'
-                  : 'bg-white border border-secondary-100 text-text-secondary hover:border-accent-600'
+                  ? 'bg-[#251D24] text-white'
+                  : 'border border-[#E7D5CA] bg-[#FFFDFB] text-[#5F5360] hover:border-[#D96C8C] hover:text-[#D96C8C]'
               }`}
             >
               All Items
@@ -215,10 +332,10 @@ export default function MyWardrobe() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-lg whitespace-nowrap transition ${
+                className={`whitespace-nowrap px-4 py-2 text-sm font-semibold transition ${
                   selectedCategory === cat
-                    ? 'bg-accent-600 text-white'
-                    : 'bg-white border border-secondary-100 text-text-secondary hover:border-accent-600'
+                    ? 'bg-[#251D24] text-white'
+                    : 'border border-[#E7D5CA] bg-[#FFFDFB] text-[#5F5360] hover:border-[#D96C8C] hover:text-[#D96C8C]'
                 }`}
               >
                 {cat}
@@ -238,40 +355,45 @@ export default function MyWardrobe() {
             action={{ label: 'Add First Item', onClick: () => setShowForm(true) }}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredItems.map((item) => (
               <motion.div
                 key={item._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="overflow-hidden group">
-                  <div className="relative mb-4 overflow-hidden rounded-lg bg-gray-100 h-40">
+                <Card className="group overflow-hidden p-0">
+                  <div className="relative h-64 overflow-hidden bg-[#E6D5C8]">
                     {item.imageUrl ? (
                       <img
                         src={item.imageUrl}
                         alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-text-secondary">
+                      <div className="flex h-full w-full items-center justify-center font-display text-2xl text-[#7E5A4B]">
                         {item.category}
                       </div>
                     )}
+                    <span className="absolute left-4 top-4 bg-white/88 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-[#9B6D5B] backdrop-blur-xl">
+                      {item.category}
+                    </span>
                   </div>
-                  <h3 className="font-semibold text-text-primary truncate">{item.name}</h3>
-                  <p className="text-text-secondary text-sm">{item.category}</p>
-                  <div className="flex gap-2 mt-3">
+                  <div className="p-5">
+                    <h3 className="truncate font-display text-2xl font-semibold text-[#251D24]">{item.name}</h3>
+                    <p className="mt-1 text-sm text-[#5F5360]">{item.brand || 'Closet edit'}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {item.color && (
-                      <span className="px-2 py-1 bg-secondary-100 rounded text-xs text-text-secondary">
+                      <span className="bg-[#F8F2EE] px-3 py-1 text-xs font-medium text-[#7E5A4B]">
                         {item.color}
                       </span>
                     )}
                     {item.season && (
-                      <span className="px-2 py-1 bg-secondary-100 rounded text-xs text-text-secondary">
+                      <span className="bg-[#FFF0F7] px-3 py-1 text-xs font-medium text-[#D96C8C]">
                         {item.season}
                       </span>
                     )}
+                  </div>
                   </div>
                 </Card>
               </motion.div>

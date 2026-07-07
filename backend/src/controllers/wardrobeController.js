@@ -21,15 +21,19 @@ export const addWardrobeItem = async (req, res) => {
   try {
     const { name, category, color, season, brand, size, imageUrl } = req.body;
 
+    if (!name?.trim() || !category || !color?.trim() || !season) {
+      return res.status(400).json({ message: 'Name, category, color, and season are required' });
+    }
+
     const item = new WardrobeItem({
       userId: req.userId,
-      name,
+      name: name.trim(),
       category,
-      color,
+      color: color.trim(),
       season,
-      brand,
-      size,
-      imageUrl,
+      brand: brand?.trim(),
+      size: size?.trim(),
+      imageUrl: imageUrl?.trim(),
     });
 
     await item.save();
@@ -50,9 +54,16 @@ export const addWardrobeItem = async (req, res) => {
 
 export const updateWardrobeItem = async (req, res) => {
   try {
-    const item = await WardrobeItem.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const item = await WardrobeItem.findOneAndUpdate(
+      { _id: req.params.id, userId: req.userId },
+      req.body,
+      { new: true }
+    );
+
+    if (!item) {
+      return res.status(404).json({ message: 'Wardrobe item not found' });
+    }
+
     res.json(item);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -61,7 +72,21 @@ export const updateWardrobeItem = async (req, res) => {
 
 export const deleteWardrobeItem = async (req, res) => {
   try {
-    await WardrobeItem.findByIdAndDelete(req.params.id);
+    const item = await WardrobeItem.findOneAndDelete({ _id: req.params.id, userId: req.userId });
+
+    if (!item) {
+      return res.status(404).json({ message: 'Wardrobe item not found' });
+    }
+
+    const user = await User.findById(req.userId);
+    if (user) {
+      user.wardrobeStats.totalItems = Math.max(0, user.wardrobeStats.totalItems - 1);
+      if (item.category === 'Tops') user.wardrobeStats.topCount = Math.max(0, user.wardrobeStats.topCount - 1);
+      if (item.category === 'Bottoms') user.wardrobeStats.bottomCount = Math.max(0, user.wardrobeStats.bottomCount - 1);
+      if (item.category === 'Shoes') user.wardrobeStats.shoeCount = Math.max(0, user.wardrobeStats.shoeCount - 1);
+      await user.save();
+    }
+
     res.json({ message: 'Item deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -13,8 +13,17 @@ export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!name?.trim() || !email?.trim() || !password) {
+      return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
+
+    if (password.length < 8) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters' });
+    }
+
     // Check if user exists
-    const existingUser = await User.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -24,8 +33,8 @@ export const signup = async (req, res) => {
 
     // Create user
     const user = new User({
-      name,
-      email,
+      name: name.trim(),
+      email: normalizedEmail,
       password: hashedPassword,
     });
 
@@ -48,8 +57,12 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email?.trim() || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }

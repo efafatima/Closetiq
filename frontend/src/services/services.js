@@ -25,7 +25,7 @@ export const wardrobeService = {
 export const productService = {
   getProducts: (filters) => api.get('/products', { params: filters }),
   getProductById: (id) => api.get(`/products/${id}`),
-  searchProducts: (query) => api.get('/products/search', { params: { q: query } }),
+  searchProducts: (query) => api.get('/products/search', { params: { search: query } }),
 };
 
 export const cartService = {

@@ -18,7 +18,10 @@ export const authenticate = (req, res, next) => {
 
 export const authorize = (...roles) => {
   return (req, res, next) => {
-    if (req.user && roles.includes(req.user.role)) {
+    const isAllowed =
+      req.user && (roles.includes(req.user.role) || (roles.includes('admin') && req.user.isAdmin));
+
+    if (isAllowed) {
       next();
     } else {
       res.status(403).json({ message: 'Access denied' });
