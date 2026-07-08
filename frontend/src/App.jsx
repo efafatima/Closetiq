@@ -1,9 +1,10 @@
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import store from '@/store/index';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/common/Navbar';
 import Footer from '@/components/common/Footer';
+import { useAuth } from '@/hooks/useRedux';
 
 // Pages
 import Landing from '@/pages/Landing';
@@ -22,6 +23,27 @@ import Checkout from '@/pages/Checkout';
 import Orders from '@/pages/Orders';
 import AdminDashboard from '@/pages/admin/Dashboard';
 
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  return children;
+}
+
+function PublicRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+}
+
 function App() {
   return (
     <Provider store={store}>
@@ -30,21 +52,128 @@ function App() {
           <Navbar />
           <main className="flex-1">
             <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/wardrobe" element={<MyWardrobe />} />
-              <Route path="/stylist" element={<AIStylist />} />
-              <Route path="/outfit-generator" element={<OutfitGenerator />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:id" element={<ProductDetails />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/admin/*" element={<AdminDashboard />} />
+              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <PublicRoute>
+                    <Signup />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  <PublicRoute>
+                    <ForgotPassword />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Landing />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/wardrobe"
+                element={
+                  <ProtectedRoute>
+                    <MyWardrobe />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/stylist"
+                element={
+                  <ProtectedRoute>
+                    <AIStylist />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/outfit-generator"
+                element={
+                  <ProtectedRoute>
+                    <OutfitGenerator />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/products"
+                element={
+                  <ProtectedRoute>
+                    <Products />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/products/:id"
+                element={
+                  <ProtectedRoute>
+                    <ProductDetails />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/wishlist"
+                element={
+                  <ProtectedRoute>
+                    <Wishlist />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedRoute>
+                    <Cart />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orders"
+                element={
+                  <ProtectedRoute>
+                    <Orders />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/*"
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
           </main>
           <Footer />

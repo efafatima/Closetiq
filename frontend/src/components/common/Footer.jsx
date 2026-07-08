@@ -16,7 +16,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm text-white/65">
-              <li><Link to="/" className="transition hover:text-white">Home</Link></li>
+              <li><Link to="/home" className="transition hover:text-white">Home</Link></li>
               <li><Link to="/wardrobe" className="hover:text-white transition">My Wardrobe</Link></li>
               <li><Link to="/stylist" className="hover:text-white transition">AI Stylist</Link></li>
               <li><Link to="/products" className="hover:text-white transition">Store</Link></li>
