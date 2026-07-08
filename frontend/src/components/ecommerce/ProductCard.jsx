@@ -10,14 +10,14 @@ export default function ProductCard({ product, onAddToCart, onAddToWishlist }) {
   return (
     <motion.div
       whileHover={{ y: -6 }}
-      className="group cursor-pointer"
+      className="group flex h-full cursor-pointer flex-col"
     >
-      <div className="relative overflow-hidden bg-[#e8dccd] product-tile-image">
+      <div className="product-tile-image relative shrink-0 overflow-hidden bg-[#e8dccd]">
         <Link to={`/products/${product._id}`}>
           <img
             src={image}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
         </Link>
         <motion.button
@@ -44,10 +44,10 @@ export default function ProductCard({ product, onAddToCart, onAddToWishlist }) {
         </button>
       </div>
 
-      <div className="mt-3 flex items-start justify-between gap-4 border-b border-[#d8c8b8] pb-4">
+      <div className="mt-3 flex min-h-[5.75rem] flex-1 items-start justify-between gap-4 border-b border-[#d8c8b8] pb-4">
         <div className="min-w-0">
           <Link to={`/products/${product._id}`}>
-            <h3 className="truncate text-sm font-semibold uppercase tracking-[0.12em] text-text-primary hover:text-accent-600">
+            <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold uppercase leading-5 tracking-[0.12em] text-text-primary hover:text-accent-600">
               {product.name}
             </h3>
           </Link>
