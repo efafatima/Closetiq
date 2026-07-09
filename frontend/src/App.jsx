@@ -35,12 +35,6 @@ function ProtectedRoute({ children }) {
 }
 
 function PublicRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-
-  if (isAuthenticated) {
-    return <Navigate to="/home" replace />;
-  }
-
   return children;
 }
 
@@ -71,6 +65,7 @@ function AppShell() {
                   </PublicRoute>
                 }
               />
+              <Route path="/register" element={<Navigate to="/signup" replace />} />
               <Route
                 path="/forgot-password"
                 element={
