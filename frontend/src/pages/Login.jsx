@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiEye, FiEyeOff, FiMail, FiLock } from 'react-icons/fi';
 import Card from '@/components/common/Card';
@@ -12,14 +12,12 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const location = useLocation();
   const { dispatch } = useAuth();
-  const redirectTo = location.state?.from?.pathname || '/dashboard';
   const { loading, error, handleSubmit } = useAsyncForm(async (data) => {
     const res = await authService.login(data.email, data.password);
     dispatch(setToken(res.data.token));
     dispatch(setUser(res.data.user));
-    navigate(redirectTo, { replace: true });
+    navigate('/home', { replace: true });
   });
 
   const onSubmit = async (e) => {

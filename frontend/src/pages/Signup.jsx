@@ -25,7 +25,7 @@ export default function Signup() {
     const res = await authService.signup(data);
     dispatch(setToken(res.data.token));
     dispatch(setUser(res.data.user));
-    navigate('/dashboard');
+    navigate('/home');
   });
 
   const onSubmit = async (e) => {

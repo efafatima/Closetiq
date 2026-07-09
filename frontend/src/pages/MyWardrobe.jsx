@@ -99,15 +99,34 @@ export default function MyWardrobe() {
     setFormData((current) => ({ ...current, [field]: value }));
   };
 
+  const openAddForm = () => {
+    setFormData((current) => ({
+      ...current,
+      category: selectedCategory === 'all' ? current.category : selectedCategory,
+    }));
+    setShowForm(true);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const mode = e.nativeEvent.submitter?.value || 'close';
     setSaving(true);
     try {
       const res = await wardrobeService.addItem(formData);
       setItems((current) => [res.data, ...current]);
-      setFormData(initialForm);
-      setShowForm(false);
-      toast.success('Wardrobe item added');
+      if (mode === 'add-next') {
+        setFormData({
+          ...initialForm,
+          category: formData.category,
+          season: formData.season,
+        });
+        setShowForm(true);
+        toast.success('Item added. Add the next one.');
+      } else {
+        setFormData(initialForm);
+        setShowForm(false);
+        toast.success('Wardrobe item added');
+      }
     } catch (error) {
       toast.error(error.response?.data?.message || 'Could not add wardrobe item');
     } finally {
@@ -182,7 +201,7 @@ export default function MyWardrobe() {
                   <p className="mt-2 font-display text-2xl font-semibold text-[#251D24]">Soft, structured, styled</p>
                 </div>
                 <button
-                  onClick={() => setShowForm(true)}
+                  onClick={openAddForm}
                   className="inline-flex items-center justify-center gap-2 bg-[#251D24] px-5 py-3 text-sm font-semibold text-white shadow-premium transition hover:bg-[#D96C8C]"
                 >
                   <FiPlus size={18} />
@@ -286,13 +305,24 @@ export default function MyWardrobe() {
                 placeholder="Image URL"
                 className="md:col-span-2 px-4 py-3 bg-bg-beige border border-secondary-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-600"
               />
-              <button
-                type="submit"
-                disabled={saving}
-                className="md:col-span-2 px-6 py-3 bg-accent-600 text-white rounded-lg hover:bg-accent-700 transition font-semibold disabled:opacity-50"
-              >
-                {saving ? 'Saving...' : 'Save Item'}
-              </button>
+              <div className="md:col-span-2 grid gap-3 sm:grid-cols-2">
+                <button
+                  type="submit"
+                  value="add-next"
+                  disabled={saving}
+                  className="px-6 py-3 bg-[#251D24] text-white rounded-lg hover:bg-[#3A3038] transition font-semibold disabled:opacity-50"
+                >
+                  {saving ? 'Saving...' : 'Save & Add Next'}
+                </button>
+                <button
+                  type="submit"
+                  value="close"
+                  disabled={saving}
+                  className="px-6 py-3 bg-accent-600 text-white rounded-lg hover:bg-accent-700 transition font-semibold disabled:opacity-50"
+                >
+                  {saving ? 'Saving...' : 'Save Item'}
+                </button>
+              </div>
             </form>
           </Card>
         )}
@@ -342,6 +372,13 @@ export default function MyWardrobe() {
               </button>
             ))}
           </div>
+          <button
+            onClick={openAddForm}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D96C8C] px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-[#C85A7D]"
+          >
+            <FiPlus size={17} />
+            Add Item
+          </button>
         </motion.div>
 
         {/* Items Grid */}
@@ -352,7 +389,7 @@ export default function MyWardrobe() {
             title="No items yet"
             description="Start building your digital wardrobe by adding your first item"
             icon={FiPlus}
-            action={{ label: 'Add First Item', onClick: () => setShowForm(true) }}
+            action={{ label: 'Add First Item', onClick: openAddForm }}
           />
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
