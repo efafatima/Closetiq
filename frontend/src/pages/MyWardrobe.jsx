@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Card from '@/components/common/Card';
 import EmptyState from '@/components/common/EmptyState';
 import LoadingSkeleton from '@/components/common/LoadingSkeleton';
-import { FiCamera, FiGrid, FiHeart, FiPlus, FiSearch, FiShoppingBag, FiStar, FiX } from 'react-icons/fi';
+import { FiCamera, FiHeart, FiPlus, FiSearch, FiX } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { wardrobeService } from '@/services/services';
 
@@ -23,33 +23,6 @@ const heroShots = [
   { label: 'Soft layers', position: '18% 16%' },
   { label: 'Statement hat', position: '50% 40%' },
   { label: 'Evening profile', position: '82% 24%' },
-];
-
-const styleSections = [
-  {
-    title: 'Core Closet',
-    subtitle: 'Tops, bottoms, and dresses balanced into daily outfit rails.',
-    meta: '12 essentials',
-    image: '/wadrob.jpg',
-    position: '16% 82%',
-    icon: FiGrid,
-  },
-  {
-    title: 'Mood Palette',
-    subtitle: 'Track colors, seasons, and textures before choosing the next look.',
-    meta: 'Blush, black, sage',
-    image: '/wadrob.jpg',
-    position: '51% 39%',
-    icon: FiStar,
-  },
-  {
-    title: 'Finish Pieces',
-    subtitle: 'Bags, shoes, and accessories that complete your styling story.',
-    meta: 'Ready to pair',
-    image: '/girl.png',
-    position: '50% 48%',
-    icon: FiShoppingBag,
-  },
 ];
 
 export default function MyWardrobe() {
@@ -212,38 +185,6 @@ export default function MyWardrobe() {
           </div>
         </motion.div>
 
-        <div className="mb-10 grid gap-5 lg:grid-cols-3">
-          {styleSections.map((section, index) => {
-            const Icon = section.icon;
-            return (
-              <motion.article
-                key={section.title}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08 }}
-                className="group overflow-hidden rounded-2xl border border-white/80 bg-white/80 shadow-soft backdrop-blur-xl"
-              >
-                <div className="relative h-52 overflow-hidden">
-                  <img
-                    src={section.image}
-                    alt={section.title}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    style={{ objectPosition: section.position }}
-                  />
-                  <span className="absolute left-4 top-4 grid h-11 w-11 place-items-center bg-white/88 text-[#D96C8C] shadow-soft backdrop-blur-xl">
-                    <Icon size={20} />
-                  </span>
-                </div>
-                <div className="p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9B6D5B]">{section.meta}</p>
-                  <h2 className="mt-2 font-display text-2xl font-semibold text-[#251D24]">{section.title}</h2>
-                  <p className="mt-3 text-sm leading-6 text-[#5F5360]">{section.subtitle}</p>
-                </div>
-              </motion.article>
-            );
-          })}
-        </div>
-
         {showForm && (
           <Card className="mb-8" hover={false}>
             <div className="flex items-center justify-between mb-6">
@@ -372,13 +313,6 @@ export default function MyWardrobe() {
               </button>
             ))}
           </div>
-          <button
-            onClick={openAddForm}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D96C8C] px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-[#C85A7D]"
-          >
-            <FiPlus size={17} />
-            Add Item
-          </button>
         </motion.div>
 
         {/* Items Grid */}
