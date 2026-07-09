@@ -44,14 +44,16 @@ function PublicRoute({ children }) {
   return children;
 }
 
-function App() {
+function AppShell() {
+  const location = useLocation();
+  const authPaths = ['/login', '/signup', '/forgot-password'];
+  const isAuthScreen = authPaths.includes(location.pathname);
+
   return (
-    <Provider store={store}>
-      <Router>
-        <div className="flex flex-col min-h-screen bg-primary-50">
-          <Navbar />
-          <main className="flex-1">
-            <Routes>
+    <div className="flex min-h-screen flex-col bg-primary-50">
+      {!isAuthScreen && <Navbar />}
+      <main className="flex-1">
+        <Routes>
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route
                 path="/login"
@@ -174,10 +176,18 @@ function App() {
                 }
               />
               <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+        </Routes>
+      </main>
+      {!isAuthScreen && <Footer />}
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <Router>
+        <AppShell />
         <Toaster position="top-right" />
       </Router>
     </Provider>
